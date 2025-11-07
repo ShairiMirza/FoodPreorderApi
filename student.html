@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Menu - Food Preorder System</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="student.html" class="active">Student</a>
+        <a href="admin.html">Admin</a>
+        <a href="report.html">Report</a>
+        <a href="about.html">About Us</a>
+        <a href="faq.html">FAQ</a>
+    </nav>
+
+    <div class="container">
+        <h1>Available Menus</h1>
+        <div id="menuList" class="menu-container"></div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h3>Place Order</h3>
+            <form id="orderForm">
+                <input type="hidden" id="orderMenuId" />
+                <input type="text" id="orderMenuName" readonly />
+                <input type="text" id="orderStudentName" placeholder="Your Name" required />
+                <input type="date" id="orderPickupDate" required />
+                <input type="time" id="orderPickupTime" required />
+                <button type="submit">Place Order</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

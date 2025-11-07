@@ -1,15 +1,27 @@
-using FoodPreorderApi.Data;
+﻿using FoodPreorderApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services
+// ✅ Tambah CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy
+            .AllowAnyOrigin()   // Benarkan semua origin (boleh hadkan nanti)
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
+// ✅ Add services
 builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Swagger
+// ✅ Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -23,7 +35,7 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Middleware
+// ✅ Middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -35,6 +47,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// ✅ Enable CORS sebelum controller
+app.UseCors("AllowFrontend");
+
 app.UseAuthorization();
 
 app.MapControllers();

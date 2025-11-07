@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us - UPTM Cafe Preorder System</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            background-color: #e6f7ff; /* light blue background */
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1, h2, h3 {
+            color: #222;
+        }
+
+        p, li {
+            color: #222;
+        }
+
+        /* Vision & Mission as cards */
+        .vision-mission-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .vision-card, .mission-card {
+            padding: 20px;
+            border-radius: 12px;
+            width: 45%;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .vision-card {
+            background-color: #fff8cc; /* soft yellow */
+        }
+
+        .mission-card {
+            background-color: #fff8cc; /* soft pink */
+        }
+
+            .vision-card:hover, .mission-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            }
+
+            .mission-card ul {
+                list-style: none;
+                padding-left: 0;
+                margin-top: 10px;
+            }
+
+            .mission-card li {
+                margin: 6px 0;
+                background-color: #ffffff;
+                padding: 8px 12px;
+                border-radius: 8px;
+                transition: transform 0.3s, background 0.3s, color 0.3s;
+            }
+
+                .mission-card li:hover {
+                    transform: translateY(-3px);
+                    background-color: #ffccd5;
+                    color: #222;
+                }
+
+        /* Team Cards */
+        .team-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .team-card {
+            background-color: #e6f7ff;
+            border-radius: 12px;
+            padding: 20px;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s;
+            opacity: 0;
+        }
+
+            .team-card.visible {
+                opacity: 1;
+            }
+
+            .team-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            }
+
+            .team-card img {
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-bottom: 10px;
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+
+                .team-card img:hover {
+                    transform: scale(1.1);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                }
+
+        @media (max-width: 768px) {
+            .vision-card, .mission-card {
+                width: 90%;
+            }
+
+            .team-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="student.html">Student</a>
+        <a href="admin.html">Admin</a>
+        <a href="report.html">Report</a>
+        <a href="about.html" class="active">About Us</a>
+        <a href="faq.html">FAQ</a>
+    </nav>
+
+    <div class="container">
+        <h1>About UPTM Cafe Preorder System</h1>
+        <p>Our system allows students to preorder meals conveniently, reducing waiting time and ensuring fresh food delivery on time.</p>
+
+        <!-- Vision & Mission Cards -->
+        <div class="vision-mission-container">
+            <div class="vision-card">
+                <h2>Vision</h2>
+                <p>Our vision is to become the leading pre-order cafe at UPTM. We aim to provide students with a seamless online ordering experience, ensuring meals are ready on time and satisfaction is guaranteed. By leveraging technology, we strive to enhance the campus dining experience for every student.</p>
+            </div>
+            <div class="mission-card">
+                <h2>Mission</h2>
+                <ul>
+                    <li>Provide an easy-to-use online pre-order system.</li>
+                    <li>Serve fresh and quality meals to students on time.</li>
+                    <li>Enhance student satisfaction by reducing waiting time.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Team Members -->
+        <h2>Our Team</h2>
+        <div class="team-cards">
+            <div class="team-card">
+                <img src="images/pfpmina.jpg" alt="Mina">
+                <h3>Mina</h3>
+                <p>Front-End Developer & Designer</p>
+            </div>
+            <div class="team-card">
+                <img src="images/pfpmirza.jpg" alt="Mirza">
+                <h3>Mirza</h3>
+                <p>Back-End Developer</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Food Pre-Order API System</p>
+    </footer>
+
+    <script>
+        // Fade-in team cards
+        const teamCards = document.querySelectorAll('.team-card');
+        const observerTeam = new IntersectionObserver(entries => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.2 });
+        teamCards.forEach(card => observerTeam.observe(card));
+    </script>
+</body>
+</html>

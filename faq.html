@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ - UPTM Cafe Preorder System</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #e6f7ff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #222;
+            margin-bottom: 30px;
+        }
+
+        /* ===================== Accordion Buttons ===================== */
+        .accordion {
+            color: #222;
+            cursor: pointer;
+            padding: 15px 20px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1rem;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+            .accordion:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+            }
+
+            /* Icon width fix supaya text tidak hide */
+            .accordion i.icon-left,
+            .accordion i.fa-minus-circle {
+                font-size: 1.2rem;
+                width: 25px; /* cukup ruang */
+                text-align: center;
+                transition: transform 0.3s ease;
+                flex-shrink: 0; /* icon tak compress */
+            }
+
+        /* ===================== Panel ===================== */
+        .panel {
+            padding: 0 20px;
+            background-color: #ffffff;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 12px;
+        }
+
+            .panel p {
+                padding: 10px 0;
+                margin: 0;
+                color: #333;
+                text-align: left;
+            }
+
+        /* ===================== Colorful Buttons ===================== */
+        .btn-color-1 {
+            background: #ffb3c2;
+        }
+
+        .btn-color-2 {
+            background: #ffe680;
+        }
+
+        .btn-color-3 {
+            background: #b3e6ff;
+        }
+
+        .btn-color-4 {
+            background: #c2ffc2;
+        }
+
+        .btn-color-5 {
+            background: #d9b3ff;
+        }
+
+        .accordion.active {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="student.html">Student</a>
+        <a href="admin.html">Admin</a>
+        <a href="report.html">Report</a>
+        <a href="about.html">About Us</a>
+        <a href="faq.html" class="active">FAQ</a>
+    </nav>
+
+    <div class="container">
+        <h1>Frequently Asked Questions</h1>
+
+        <button class="accordion btn-color-1"><i class="fas fa-shopping-cart icon-left"></i> How do I place an order?</button>
+        <div class="panel">
+            <p>Go to the Student page, select your menu, fill in your name, pickup date & time, then click "Order Now".</p>
+        </div>
+
+        <button class="accordion btn-color-2"><i class="fas fa-edit icon-left"></i> Can I edit or cancel my order?</button>
+        <div class="panel">
+            <p>You cannot edit after submission. For cancellations, contact the admin directly.</p>
+        </div>
+
+        <button class="accordion btn-color-3"><i class="fas fa-money-bill icon-left"></i> What payment methods are accepted?</button>
+        <div class="panel">
+            <p>All orders are prepaid via cash at pickup. Online payment coming soon.</p>
+        </div>
+
+        <button class="accordion btn-color-4"><i class="fas fa-bell icon-left"></i> How do I know my order is ready?</button>
+        <div class="panel">
+            <p>Check the Report page. Admin updates the status in real-time.</p>
+        </div>
+
+        <button class="accordion btn-color-5"><i class="fas fa-users icon-left"></i> Who can access this system?</button>
+        <div class="panel">
+            <p>UPTM students and admins managing the cafe preorders.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Food Pre-Order API System</p>
+    </footer>
+
+    <script>
+        const accordions = document.querySelectorAll('.accordion');
+
+        accordions.forEach(acc => {
+            acc.addEventListener('click', function () {
+                const icon = this.querySelector('i');
+                const panel = this.nextElementSibling;
+                this.classList.toggle('active');
+
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                    icon.classList.replace('fa-minus-circle', 'icon-left');
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                    icon.classList.replace('icon-left', 'fa-minus-circle');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

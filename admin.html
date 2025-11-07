@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Menu - Food Preorder System</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="student.html">Student</a>
+        <a href="admin.html" class="active">Admin</a>
+        <a href="report.html">Report</a>
+        <a href="about.html">About Us</a>
+        <a href="faq.html">FAQ</a>
+    </nav>
+
+    <div class="container">
+        <h1>Manage Menus</h1>
+
+        <form id="addMenuForm">
+            <input type="text" id="menuName" placeholder="Menu Name" required />
+            <input type="number" id="menuPrice" placeholder="Price" step="0.01" required />
+            <input type="text" id="menuCategory" placeholder="Category" required />
+            <select id="menuAvailable">
+                <option value="true">Available</option>
+                <option value="false">Unavailable</option>
+            </select>
+            <button type="submit">Add Menu</button>
+        </form>
+
+        <div id="menuList" class="menu-container"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

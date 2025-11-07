@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using FoodPreorderApi.Data;
+﻿using FoodPreorderApi.Data;
 using FoodPreorderApi.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodPreorderApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -16,81 +16,88 @@ namespace FoodPreorderApi.Controllers
             _context = context;
         }
 
-        // GET: api/Orders
+        // GET all orders
         [HttpGet]
-        public async Task<IActionResult> GetOrders()
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
-            var orders = await _context.Orders
+            return await _context.Orders
                 .Include(o => o.Menu)
-                .Select(o => new
-                {
-                    o.Id,
-                    o.StudentName,
-                    o.PickupTime,
-                    o.Status,
-                    Menu = new
-                    {
-                        o.Menu.Id,
-                        o.Menu.Name,
-                        o.Menu.Price,
-                        o.Menu.Category,
-                        o.Menu.Available
-                    }
-                })
                 .ToListAsync();
-
-            return Ok(orders);
         }
 
-        // POST: api/Orders
-        [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDto dto)
+        // GET order by id
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Order>> GetOrder(int id)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var order = await _context.Orders
+                .Include(o => o.Menu)
+                .FirstOrDefaultAsync(o => o.Id == id);
 
-            // Pastikan MenuId wujud
-            var menu = await _context.Menus.FindAsync(dto.MenuId);
+            if (order == null)
+                return NotFound();
+
+            return order;
+        }
+
+        // POST (create new order)
+        [HttpPost]
+        public async Task<ActionResult<Order>> PostOrder(Order order)
+        {
+            var menu = await _context.Menus.FindAsync(order.MenuId);
             if (menu == null)
-                return BadRequest(new { message = "Menu not found." });
+                return BadRequest("Invalid MenuId — menu not found.");
 
-            var order = new Order
-            {
-                MenuId = dto.MenuId,
-                StudentName = dto.StudentName,
-                PickupTime = dto.PickupTime,
-                Status = dto.Status
-            };
-
+            order.Menu = null; // elak circular reference
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
-            var result = new
-            {
-                order.Id,
-                order.StudentName,
-                order.PickupTime,
-                order.Status,
-                Menu = new
-                {
-                    menu.Id,
-                    menu.Name,
-                    menu.Price,
-                    menu.Category,
-                    menu.Available
-                }
-            };
-
-            return CreatedAtAction(nameof(GetOrders), new { id = order.Id }, result);
+            return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
         }
-    }
 
-    // DTO untuk POST
-    public class OrderCreateDto
-    {
-        public int MenuId { get; set; }
-        public string StudentName { get; set; } = string.Empty;
-        public DateTime PickupTime { get; set; }
-        public string Status { get; set; } = string.Empty;
+        // PUT (update full order)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrder(int id, Order order)
+        {
+            if (id != order.Id)
+                return BadRequest();
+
+            var existingOrder = await _context.Orders.FindAsync(id);
+            if (existingOrder == null)
+                return NotFound();
+
+            existingOrder.MenuId = order.MenuId;
+            existingOrder.StudentName = order.StudentName;
+            existingOrder.PickupTime = order.PickupTime;
+            existingOrder.Status = order.Status;
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        // DELETE order
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
+                return NotFound();
+
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        // PATCH update order status
+        [HttpPatch("{id}/status")]
+        public async Task<IActionResult> UpdateOrderStatus(int id, [FromBody] string status)
+        {
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
+                return NotFound();
+
+            order.Status = status;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }
